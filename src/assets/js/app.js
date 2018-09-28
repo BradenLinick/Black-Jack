@@ -30,7 +30,7 @@ function clear() { //new game
   document.getElementById("bet-inp").value = "";
 }
 
-function betty() {
+function betty() { //takes bet and keeps track of it
   let currentBet = document.getElementById("bet-inp").value;
   bet = currentBet;
   playerBank = playerBank - bet;
@@ -39,19 +39,18 @@ function betty() {
   );
 };
 
-function getDeck() {
+function getDeck() { //gets new shuffled deck
   const deck = new Deck();
   deck.shuffle();
-  gameDeck = deck;
 };
 
-function getCard() {
+function getCard() { //gets individual card values
   let currentCard = gameDeck.cards[i];
   i++;
   return currentCard;
 }
 
-function stand() {
+function stand() { //Player stands
   document.getElementById("rev").classList.remove("face-revers");
   document.getElementById("rev").classList.remove("card");
   while (dealerscore < playerscore && dealerscore < 22) {
@@ -76,44 +75,39 @@ function hit() {  //test
   };
 }
 
-function displayCard(card) {
+function displayCard(card) { //prints player's cards inside div
   let cardDiv = document.getElementById("cards");
   cardDiv.innerHTML += (
     `<div class="card face-${card.rank}-of-${card.suit}"></div>`
   );
 }
 
-function displayDealerCard(card) {
+function displayDealerCard(card) {  //prints dealer's cards inside div
   let dealerCards = document.getElementById("dealercards");
   dealerCards.innerHTML += (
     `<div class="card face-${card.rank}-of-${card.suit}"></div>`
   );
 }
 
-function dealerHit() {
+function dealerHit() { //hit for dealer
   let card = getCard();
   displayDealerCard(card);
   dealerscore += cardScore(card.rank);
   document.getElementById("dealerscore").innerHTML = `Score: ${dealerscore}`;
 }
 
-function startGame() {
+function startGame() { //deals new hand
   getDeck();
   hit();
   hit();
   dealerHit();
 }
 
-function dealerWin() {
+function dealerWin() { //dealer wins
   alert(`The dealer wins. He hit ${dealerscore}. He is amazing.`);
 }
 
-function noBJwin() {
-  playerWin();
-  alert("nice");
-}
-
-function reset() { //deal
+function reset() { //deals cards
   playerscore = 0;
   dealerscore = 0;
   document.getElementById("playerscore").innerHTML = `Score: ${playerscore}`;
@@ -130,20 +124,60 @@ function reset() { //deal
   startGame();
 }
 
-function playerWin() {
+function playerWin() { //bet
   playerBank += (bet*2)
 }
 
-function blackJack() { //player win
+function blackJack() { //player wins with blackjack
   playerWin();
+  ani();
+  ani2();
   alert("You win. You hit 21. You are amazing.");
+}
+
+function noBJwin() { //player wins without blackjack
+  playerWin();
+  alert("nice");
 }
 
 function gameFail() { //player loses
   alert(`You busted. Your score is ${playerscore}. You suck. Consider other games.`);
 }
 
-function cardScore(value) {
+function ani() { //animation
+    let elem = document.getElementById("casino"); 
+    let pos = 0;
+    let id = setInterval(frame, 5);
+    function frame() {
+        if (pos == 850) {
+            clearInterval(id);
+            elem.style.visibility = "hidden";
+        } else {
+            pos++; 
+            elem.style.top = pos + 'px'; 
+            elem.style.left = pos + 'px';
+            elem.style.visibility = "visible"; 
+        }
+    }
+}
+
+function ani2() { //animation
+  let elem = document.getElementById("bj"); 
+  let pos = 0;
+  let id = setInterval(frame, 5);
+  function frame() {
+      if (pos == 650) {
+          clearInterval(id);
+          elem.style.visibility = "hidden";
+      } else {
+          pos++;  
+          elem.style.right = pos + 'px';
+          elem.style.visibility = "visible"; 
+      }
+  }
+}
+
+function cardScore(value) { //card values
   switch (value) {
     case "ace": 
       return 11;

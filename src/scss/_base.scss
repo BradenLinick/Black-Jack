@@ -58,6 +58,21 @@ span {
   margin: 1rem;
 }
 
+#bj {
+  width: 28rem;
+  height: 15rem;
+  position: absolute;
+  visibility: hidden;
+}
+
+#casino {
+  width: 20rem;
+  height: 15rem;
+  border-radius: 10rem;
+  position: absolute;
+  visibility: hidden;
+}
+
 button {
   background-color: $bg-action;
   color: white;
