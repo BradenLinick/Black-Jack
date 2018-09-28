@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById("hit").addEventListener("click", hit);
+document.getElementById("stand").addEventListener("click", stand);
+document.getElementById("reset").addEventListener("click", reset);
 
 let gameDeck = new Deck();
 let i = 0;
@@ -22,7 +24,20 @@ function getCard() {
   return currentCard;
 }
 
-function hit() {
+function stand() {
+  document.getElementById("rev").classList.remove("face-revers");
+  document.getElementById("rev").classList.remove("card");
+  while (dealerscore < playerscore && dealerscore < 22) {
+  dealerHit();
+  } 
+  if (dealerscore < 22) {
+    dealerWin();
+  } else {
+    noBJwin();
+  }
+}
+
+function hit() {  //test
   let card = getCard();
   displayCard(card);
   playerscore += cardScore(card.rank);
@@ -42,40 +57,54 @@ function displayCard(card) {
 }
 
 function displayDealerCard(card) {
-  let cardDiv = document.getElementById("cards");
-  cardDiv.innerHTML += (
+  let dealerCards = document.getElementById("dealercards");
+  dealerCards.innerHTML += (
     `<div class="card face-${card.rank}-of-${card.suit}"></div>`
   );
 }
 
 function dealerHit() {
   let card = getCard();
-  displayCard(card);
+  displayDealerCard(card);
   dealerscore += cardScore(card.rank);
   document.getElementById("dealerscore").innerHTML = `Score: ${dealerscore}`;
-  
 }
 
 function startGame() {
   getDeck();
   hit();
   hit();
+  dealerHit();
 }
 
-function blackJack() {
+function dealerWin() {
+  alert(`The dealer wins. He hit ${dealerscore}. He is amazing.`);
+}
+
+function noBJwin() {
+  alert("nice");
+}
+
+function reset() {
+  playerscore = 0;
+  dealerscore = 0;
+  document.getElementById("playerscore").innerHTML = `Score: ${playerscore}`;
+  document.getElementById("dealerscore").innerHTML = `Score: ${dealerscore}`;
+  let cardDiv = document.getElementById("cards");
+  cardDiv.innerHTML = "";
+  let dealercards = document.getElementById("dealercards");
+  dealercards.innerHTML = (
+    `<div id="rev" class="card face-revers"></div>`
+  );
+  startGame();
+}
+
+function blackJack() { //player win
   alert("You win. You hit 21. You are amazing.");
-  playerscore = 0; 
-  let cardDiv = document.getElementById("cards");
-  cardDiv.innerHTML = "";
-  document.getElementById("playerscore").innerHTML = `Score: ${playerscore}`;
 }
 
-function gameFail() {
+function gameFail() { //player loses
   alert(`You busted. Your score is ${playerscore}. You suck. Consider other games.`);
-  playerscore = 0; 
-  let cardDiv = document.getElementById("cards");
-  cardDiv.innerHTML = "";
-  document.getElementById("playerscore").innerHTML = `Score: ${playerscore}`;
 }
 
 function cardScore(value) {
