@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Create and shuffle a new deck of cards
-  startGame();
+  clear();
 });
 
 document.getElementById("hit").addEventListener("click", hit);
@@ -16,7 +16,7 @@ let dealerscore = 0;
 let playerBank = 500;
 let bet = 0;
 
-function clear() {
+function clear() { //new game
   playerscore = 0;
   dealerscore = 0;
   document.getElementById("playerscore").innerHTML = `Score: ${playerscore}`;
@@ -25,7 +25,8 @@ function clear() {
   cardDiv.innerHTML = "";
   let dealercards = document.getElementById("dealercards");
   dealercards.innerHTML = "";
-  document.getElementById("bankAccount").innerHTML = (`Bank Account: ${playerBank}`)
+  document.getElementById("bet-btn").style.visibility = "visible";
+  document.getElementById("bankAccount").innerHTML = (`Bank Account: $${playerBank}`)
   document.getElementById("bet-inp").value = "";
 }
 
@@ -34,7 +35,7 @@ function betty() {
   bet = currentBet;
   playerBank = playerBank - bet;
   document.getElementById("bankAccount").innerHTML = (
-    `Bank Account: ${playerBank}`
+    `Bank Account: $${playerBank}`
   );
 };
 
@@ -108,11 +109,11 @@ function dealerWin() {
 }
 
 function noBJwin() {
-  alert("nice");
   playerWin();
+  alert("nice");
 }
 
-function reset() {
+function reset() { //deal
   playerscore = 0;
   dealerscore = 0;
   document.getElementById("playerscore").innerHTML = `Score: ${playerscore}`;
@@ -123,7 +124,8 @@ function reset() {
   dealercards.innerHTML = (
     `<div id="rev" class="card face-revers"></div>`
   );
-  document.getElementById("bankAccount").innerHTML = (`Bank Account: ${playerBank}`)
+  document.getElementById("bet-btn").style.visibility = "hidden";
+  document.getElementById("bankAccount").innerHTML = (`Bank Account: $${playerBank}`)
   document.getElementById("bet-inp").value = "";
   startGame();
 }
@@ -133,8 +135,8 @@ function playerWin() {
 }
 
 function blackJack() { //player win
-  alert("You win. You hit 21. You are amazing.");
   playerWin();
+  alert("You win. You hit 21. You are amazing.");
 }
 
 function gameFail() { //player loses
