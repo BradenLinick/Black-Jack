@@ -45,6 +45,19 @@ body {
   height: $card-height;
 }
 
+.bet {
+  text-align:center; 
+}
+
+hr {
+  border: 1px solid black;
+  width: 40%;
+}
+
+span {
+  margin: 1rem;
+}
+
 button {
   background-color: $bg-action;
   color: white;

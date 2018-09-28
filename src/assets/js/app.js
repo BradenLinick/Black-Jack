@@ -6,11 +6,37 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById("hit").addEventListener("click", hit);
 document.getElementById("stand").addEventListener("click", stand);
 document.getElementById("reset").addEventListener("click", reset);
+document.getElementById("bet-btn").addEventListener("click", betty);
+document.getElementById("clear").addEventListener("click", clear);
 
 let gameDeck = new Deck();
 let i = 0;
 let playerscore = 0;
 let dealerscore = 0;
+let playerBank = 500;
+let bet = 0;
+
+function clear() {
+  playerscore = 0;
+  dealerscore = 0;
+  document.getElementById("playerscore").innerHTML = `Score: ${playerscore}`;
+  document.getElementById("dealerscore").innerHTML = `Score: ${dealerscore}`;
+  let cardDiv = document.getElementById("cards");
+  cardDiv.innerHTML = "";
+  let dealercards = document.getElementById("dealercards");
+  dealercards.innerHTML = "";
+  document.getElementById("bankAccount").innerHTML = (`Bank Account: ${playerBank}`)
+  document.getElementById("bet-inp").value = "";
+}
+
+function betty() {
+  let currentBet = document.getElementById("bet-inp").value;
+  bet = currentBet;
+  playerBank = playerBank - bet;
+  document.getElementById("bankAccount").innerHTML = (
+    `Bank Account: ${playerBank}`
+  );
+};
 
 function getDeck() {
   const deck = new Deck();
@@ -83,6 +109,7 @@ function dealerWin() {
 
 function noBJwin() {
   alert("nice");
+  playerWin();
 }
 
 function reset() {
@@ -96,11 +123,18 @@ function reset() {
   dealercards.innerHTML = (
     `<div id="rev" class="card face-revers"></div>`
   );
+  document.getElementById("bankAccount").innerHTML = (`Bank Account: ${playerBank}`)
+  document.getElementById("bet-inp").value = "";
   startGame();
+}
+
+function playerWin() {
+  playerBank += (bet*2)
 }
 
 function blackJack() { //player win
   alert("You win. You hit 21. You are amazing.");
+  playerWin();
 }
 
 function gameFail() { //player loses
