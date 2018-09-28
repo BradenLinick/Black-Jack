@@ -42,6 +42,7 @@ function betty() { //takes bet and keeps track of it
 function getDeck() { //gets new shuffled deck
   const deck = new Deck();
   deck.shuffle();
+  gameDeck = deck;
 };
 
 function getCard() { //gets individual card values
